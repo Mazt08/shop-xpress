@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import { db } from '../firebase/config'
 import {
@@ -47,7 +48,7 @@ const Orders = () => {
       {!currentUser ? (
         <div className="orders-login-prompt">
           <p>Log in to view your orders.</p>
-          <a href="/login" className="back-link">Log In</a>
+          <Link to="/login" className="back-link">Log In</Link>
         </div>
       ) : orders.length === 0 ? (
         <p>No orders found</p>

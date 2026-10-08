@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useCart } from '../contexts/CartContext'
 import { useProduct } from '../contexts/ProductContext'
 import { useAuth } from '../contexts/AuthContext'
@@ -100,12 +101,12 @@ const Cart = () => {
           {currentUser ? (
             <>
               <p>Your cart is empty</p>
-              <a href="/" className="back-link">Continue Shopping</a>
+              <Link to="/" className="back-link">Continue Shopping</Link>
             </>
           ) : (
             <>
               <p>Log in to purchase products.</p>
-              <a href="/login" className="back-link">Log In</a>
+              <Link to="/login" className="back-link">Log In</Link>
             </>
           )}
         </div>
