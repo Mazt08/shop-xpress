@@ -11,14 +11,19 @@ import {
 const Orders = () => {
   const [orders, setOrders] = useState([])
   const [error, setError] = useState(null)
-  const { currentUser, email } = useAuth()
+  const { currentUser } = useAuth()
 
   useEffect(() => {
+    if (!currentUser) {
+      setOrders([])
+      return undefined
+    }
+
     const fetchOrders = async () => {
       try {
-        // VULNERABLE: No ownership check - any user can view any order
         const ordersRef = collection(db, 'orders')
-        const snapshot = await getDocs(ordersRef)
+        const ordersQuery = query(ordersRef, where('customerEmail', '==', currentUser.email))
+        const snapshot = await getDocs(ordersQuery)
         const ordersList = snapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data()
@@ -30,7 +35,7 @@ const Orders = () => {
     }
 
     fetchOrders()
-  }, [])
+  }, [currentUser])
 
   if (error) {
     return <div>Error: {error}</div>
@@ -39,7 +44,12 @@ const Orders = () => {
   return (
     <div className="orders-page">
       <h2>Order History</h2>
-      {orders.length === 0 ? (
+      {!currentUser ? (
+        <div className="orders-login-prompt">
+          <p>Log in to view your orders.</p>
+          <a href="/login" className="back-link">Log In</a>
+        </div>
+      ) : orders.length === 0 ? (
         <p>No orders found</p>
       ) : (
         <div className="orders-table-wrap">

@@ -167,6 +167,28 @@ body {
   animation: toast-in 0.2s ease-out;
 }
 
+.login-toast {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #e94560;
+}
+
+.login-toast a {
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.login-toast button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #ffffff;
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
 @keyframes toast-in {
   from { opacity: 0; transform: translate(-50%, 0.5rem); }
   to { opacity: 1; transform: translate(-50%, 0); }
@@ -226,6 +248,7 @@ body {
 .cart-table button { padding: 0.45rem 0.75rem; background: transparent; border: 1px solid #e94560; border-radius: 4px; color: #eaeaea; cursor: pointer; }
 .cart-table button:hover { background: #e94560; }
 .empty-cart { background: #16213e; padding: 2rem; border-radius: 8px; text-align: center; }
+.orders-login-prompt { background: #16213e; padding: 2rem; border-radius: 8px; text-align: center; }
 .cart-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; }
 .checkout-button { padding: 0.65rem 1.25rem; background: #e94560; color: white; border: 0; border-radius: 4px; cursor: pointer; }
 .checkout-button:disabled { opacity: 0.6; cursor: wait; }

@@ -97,8 +97,17 @@ const Cart = () => {
       <h2>Shopping Cart</h2>
       {cartItems.length === 0 ? (
         <div className="empty-cart">
-          <p>Your cart is empty</p>
-          <a href="/" className="back-link">Continue Shopping</a>
+          {currentUser ? (
+            <>
+              <p>Your cart is empty</p>
+              <a href="/" className="back-link">Continue Shopping</a>
+            </>
+          ) : (
+            <>
+              <p>Log in to purchase products.</p>
+              <a href="/login" className="back-link">Log In</a>
+            </>
+          )}
         </div>
       ) : (
         <>

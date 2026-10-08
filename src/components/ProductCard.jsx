@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useCart } from '../contexts/CartContext'
+import { useAuth } from '../contexts/AuthContext'
 import getProductImage from '../utils/productImages'
 import formatPrice from '../utils/formatPrice'
 
 const ProductCard = ({ product }) => {
   const { addToCart } = useCart()
+  const { currentUser } = useAuth()
   const [added, setAdded] = useState(false)
+  const [loginPrompt, setLoginPrompt] = useState(false)
 
   useEffect(() => {
     if (!added) return undefined
@@ -15,6 +18,10 @@ const ProductCard = ({ product }) => {
   }, [added])
 
   const handleAddToCart = async () => {
+    if (!currentUser) {
+      setLoginPrompt(true)
+      return
+    }
     const wasAdded = await addToCart(product, 1)
     if (wasAdded) setAdded(true)
   }
@@ -37,6 +44,13 @@ const ProductCard = ({ product }) => {
         {product.stock > 0 ? (added ? 'Added to Cart' : 'Add to Cart') : 'Out of Stock'}
       </button>
       {added && <div className="cart-toast" role="status">Added {product.name} to your cart</div>}
+      {loginPrompt && (
+        <div className="cart-toast login-toast" role="alert">
+          <span>Log in to purchase products.</span>
+          <Link to="/login">Log In</Link>
+          <button onClick={() => setLoginPrompt(false)} aria-label="Dismiss login prompt">×</button>
+        </div>
+      )}
     </div>
   )
 }
