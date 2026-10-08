@@ -1,4 +1,4 @@
-import { initializeApp } from "firebase/app";
+import { initializeApp, getApps, deleteApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
@@ -20,8 +20,7 @@ const storage = getStorage(app);
 
 export { auth, db, storage };
 
-const { getApps, deleteApp } = require("firebase/app");
-
+// Clean up duplicate apps in development (HMR)
 if (typeof window !== "undefined" && getApps().length > 1) {
   const apps = getApps();
   apps.forEach((currentApp, index) => {
