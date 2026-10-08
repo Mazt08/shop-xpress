@@ -77,7 +77,6 @@ const Cart = () => {
       })
 
       await clearCart()
-      window.location.href = '/orders'
     } catch (error) {
       console.error('Checkout error:', error)
       setCheckoutError(error.message || 'Checkout failed. Please try again.')

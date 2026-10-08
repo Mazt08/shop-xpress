@@ -449,7 +449,6 @@ body {
 }
 
 .product-card:hover {
-  transform: translateY(-3px);
   border-color: rgba(84, 199, 189, 0.55);
   box-shadow: 0 14px 30px rgba(0, 0, 0, 0.3);
 }
