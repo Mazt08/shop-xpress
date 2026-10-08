@@ -1,73 +1,42 @@
 const { initializeApp } = require('firebase/app');
-const { getFirestore, collection, doc, setDoc, addDoc } = require('firebase/firestore');
+const { getFirestore, collection, doc, setDoc, addDoc, getDocs, deleteDoc } = require('firebase/firestore');
 
+// Config loaded from .env.local / environment — no hardcoded secrets
 const config = {
-  apiKey: "AIzaSyCIQaujk43exsbUnvwXD9hvMpoHZPE5U8A",
-  authDomain: "shopxpress-76296.firebaseapp.com",
-  projectId: "shopxpress-76296",
-  storageBucket: "shopxpress-76296.firebasestorage.app",
-  messagingSenderId: "338549365581",
-  appId: "1:338549365581:web:8364b963867d3282f73504"
+  apiKey: process.env.VITE_FIREBASE_API_KEY || "",
+  authDomain: process.env.VITE_FIREBASE_AUTH_DOMAIN || "",
+  projectId: process.env.VITE_FIREBASE_PROJECT_ID || "",
+  storageBucket: process.env.VITE_FIREBASE_STORAGE_BUCKET || "",
+  messagingSenderId: process.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "",
+  appId: process.env.VITE_FIREBASE_APP_ID || ""
 };
 
 const app = initializeApp(config);
 const db = getFirestore(app);
 
 async function seed() {
-  // Admin user (plaintext password - vulnerable)
-  await setDoc(doc(db, 'users', 'admin@test.com'), {
-    email: 'admin@test.com',
-    password: 'admin123',
-    role: 'admin',
-    createdAt: new Date()
-  });
-  
-  await setDoc(doc(db, 'users', 'customer1@test.com'), {
-    email: 'customer1@test.com',
-    password: 'password123',
-    role: 'customer',
-    createdAt: new Date()
-  });
-
-  // Products
+  // Clean products with real-world descriptions — no vulnerability references
   const products = [
-    { name: 'Vulnerable Phone', description: 'Phone with known exploits', price: 799, category: 'Electronics', stock: 5, imageUrl: 'https://via.placeholder.com/200', sku: 'PHONE-001', createdAt: new Date() },
-    { name: 'Hackable Watch', description: 'Smartwatch with open APIs', price: 199, category: 'Electronics', stock: 10, imageUrl: 'https://via.placeholder.com/200', sku: 'WATCH-002', createdAt: new Date() },
-    { name: 'Leaky Router', description: 'Router with no firewall', price: 89, category: 'Electronics', stock: 20, imageUrl: 'https://via.placeholder.com/200', sku: 'ROUTER-003', createdAt: new Date() },
-    { name: 'Broken Book', description: 'Book with injection vulnerabilities', price: 15, category: 'Books', stock: 50, imageUrl: 'https://via.placeholder.com/200', sku: 'BOOK-004', createdAt: new Date() },
-    { name: 'Insecure Shirt', description: 'Shirt with plaintext tags', price: 25, category: 'Clothing', stock: 100, imageUrl: 'https://via.placeholder.com/200', sku: 'SHIRT-005', createdAt: new Date() }
+    { name: 'Premium Smartphone', description: 'High-end mobile with crisp display and long battery life.', price: 799, category: 'Electronics', stock: 5, imageUrl: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400&q=80', sku: 'PHONE-001', createdAt: new Date() },
+    { name: 'Smart Fitness Watch', description: 'Track workouts, heart rate, and sleep patterns.', price: 199, category: 'Electronics', stock: 10, imageUrl: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&q=80', sku: 'WATCH-002', createdAt: new Date() },
+    { name: 'Wireless Mesh Router', description: 'Whole-home coverage with stable high-speed connection.', price: 89, category: 'Electronics', stock: 20, imageUrl: 'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b5?w=400&q=80', sku: 'ROUTER-003', createdAt: new Date() },
+    { name: 'Modern Hardcover', description: 'A well-designed book for everyday reading.', price: 15, category: 'Books', stock: 50, imageUrl: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400&q=80', sku: 'BOOK-004', createdAt: new Date() },
+    { name: 'Organic Cotton Tee', description: 'Soft, breathable shirt with a clean modern cut.', price: 25, category: 'Clothing', stock: 100, imageUrl: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&q=80', sku: 'SHIRT-005', createdAt: new Date() }
   ];
-  
+
+  // Seed products
   for (const p of products) {
     await addDoc(collection(db, 'products'), p);
   }
 
-  // Cart with sample data (vulnerable: no ownership check)
-  await setDoc(doc(db, 'carts', 'customer1@test.com'), {
-    items: [
-      { productId: 'PHONE-001', quantity: 1, price: 799 },
-      { productId: 'WATCH-002', quantity: 2, price: 199 }
-    ],
-    updatedAt: new Date()
-  });
+  // Admin user via Firestore roles (manual entry — set role to admin manually)
+  await setDoc(doc(db, 'users', 'admin@shopxpress.local'), {
+    email: 'admin@shopxpress.local',
+    role: 'admin',
+    createdAt: new Date()
+  }, { merge: true });
 
-  // Order (vulnerable: writable by all)
-  await addDoc(collection(db, 'orders'), {
-    items: [{ productId: 'PHONE-001', quantity: 1, price: 799 }],
-    total: 799,
-    status: 'completed',
-    orderDate: new Date(),
-    transactionId: 'fake-uuid-1234'
-  });
-
-  // Price history (vulnerable: writable by all users)
-  await addDoc(collection(db, 'priceHistory', 'PHONE-001'), {
-    price: 799,
-    changedAt: new Date(),
-    changedBy: 'admin@test.com'
-  });
-
-  console.log('Firestore seed data created successfully');
+  console.log('Seed complete: products imported, admin role set manually');
 }
 
 seed().catch(console.error);
