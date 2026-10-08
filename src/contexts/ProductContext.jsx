@@ -63,8 +63,14 @@ export const ProductProvider = ({ children }) => {
       setError(err.message)
       setProducts([])
       setSearchResults([])
+    } finally {
+      setLoading(false)
     }
   }
+
+  useEffect(() => {
+    fetchProducts()
+  }, [])
 
   const getProductById = async (productId) => {
     try {
@@ -149,7 +155,9 @@ export const ProductProvider = ({ children }) => {
       createProduct,
       updateProduct,
       deleteProduct,
-      updateFilters
+      updateFilters,
+      loading,
+      error
     }}>
       {children}
     </ProductContext.Provider>

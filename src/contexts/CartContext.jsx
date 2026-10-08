@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react'
-import { db } from '../firebase/config'
+import { auth, db } from '../firebase/config'
 import { collection, doc, setDoc, getDoc, updateDoc, onSnapshot } from 'firebase/firestore'
 
 const CartContext = createContext()
@@ -12,10 +12,12 @@ export const CartProvider = ({ children }) => {
 
   useEffect(() => {
     // Initialize cart subscription when user changes
-    const unsubscribeAuth = auth.onAuthStateChanged(async (user) => {
+    let unsubscribeCart
+    const unsubscribeAuth = auth.onAuthStateChanged((user) => {
+      unsubscribeCart?.()
       if (user) {
         const cartRef = doc(db, 'carts', user.email)
-        const unsubscribeCart = onSnapshot(cartRef, (docSnap) => {
+        unsubscribeCart = onSnapshot(cartRef, (docSnap) => {
           if (docSnap.exists()) {
             setCartItems(docSnap.data().items || [])
           } else {
@@ -29,7 +31,10 @@ export const CartProvider = ({ children }) => {
         setLoading(false)
       }
     })
-    return () => unsubscribeAuth()
+    return () => {
+      unsubscribeCart?.()
+      unsubscribeAuth()
+    }
   }, [])
 
   const addToCart = async (product, quantity = 1) => {
