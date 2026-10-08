@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useAuth } from '../contexts/AuthContext'
 
 const SignupForm = () => {
+  const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
@@ -11,7 +12,7 @@ const SignupForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
-    if (!email || !password || !confirmPassword) {
+    if (!username || !email || !password || !confirmPassword) {
       setError('Please fill in all fields')
       return
     }
@@ -20,7 +21,7 @@ const SignupForm = () => {
       return
     }
     try {
-      await signup(email, password)
+      await signup(email, password, username)
     } catch (err) {
       setError(err.message)
     }
@@ -30,6 +31,15 @@ const SignupForm = () => {
     <form onSubmit={handleSubmit} className="auth-form">
       <h2>Sign Up</h2>
       {error && <div className="error">{error}</div>}
+      <div>
+        <label>Username:</label>
+        <input
+          type="text"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          required
+        />
+      </div>
       <div>
         <label>Email:</label>
         <input

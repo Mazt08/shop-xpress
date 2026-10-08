@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react'
 import { useAuth } from './AuthContext'
-import { auth, db } from '../firebase/config'
-import { collection, doc, setDoc, getDoc, updateDoc, onSnapshot } from 'firebase/firestore'
+import { db } from '../firebase/config'
+import { doc, setDoc, getDoc, onSnapshot } from 'firebase/firestore'
 
 const CartContext = createContext()
 
@@ -13,34 +13,28 @@ export const CartProvider = ({ children }) => {
   const { currentUser } = useAuth()
 
   useEffect(() => {
-    // Initialize cart subscription when user changes
-    let unsubscribeCart
-    const unsubscribeAuth = auth.onAuthStateChanged((user) => {
-      unsubscribeCart?.()
-      if (user) {
-        const cartRef = doc(db, 'carts', user.email)
-        unsubscribeCart = onSnapshot(cartRef, (docSnap) => {
-          if (docSnap.exists()) {
-            setCartItems(docSnap.data().items || [])
-          } else {
-            setCartItems([])
-          }
-          setLoading(false)
-        })
-        return () => unsubscribeCart()
-      } else {
-        setCartItems([])
-        setLoading(false)
-      }
-    })
-    return () => {
-      unsubscribeCart?.()
-      unsubscribeAuth()
+    if (!currentUser) {
+      setCartItems([])
+      setLoading(false)
+      return undefined
     }
-  }, [])
+
+    setLoading(true)
+    const cartRef = doc(db, 'carts', currentUser.email)
+    const unsubscribeCart = onSnapshot(cartRef, (docSnap) => {
+      setCartItems(docSnap.exists() ? docSnap.data().items || [] : [])
+      setLoading(false)
+    }, (error) => {
+      console.error('Cart subscription error:', error.message)
+      setCartItems([])
+      setLoading(false)
+    })
+
+    return unsubscribeCart
+  }, [currentUser])
 
   const addToCart = async (product, quantity = 1) => {
-    if (!currentUser) return
+    if (!currentUser) return false
 
     try {
       const cartRef = doc(db, 'carts', currentUser.email)
@@ -63,8 +57,10 @@ export const CartProvider = ({ children }) => {
         items: items,
         updatedAt: new Date()
       })
+      return true
     } catch (error) {
       console.error('Add to cart error:', error.message)
+      return false
     }
   }
 

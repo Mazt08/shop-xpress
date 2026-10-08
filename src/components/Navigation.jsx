@@ -2,7 +2,7 @@ import { Link, NavLink } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 
 const Navigation = () => {
-  const { email, role, logout, isAdmin } = useAuth()
+  const { email, username, logout, isAdmin } = useAuth()
 
   return (
     <nav className="navbar">
@@ -14,7 +14,7 @@ const Navigation = () => {
         <NavLink to="/cart">Cart</NavLink>
         <NavLink to="/orders">Orders</NavLink>
         {email && (
-          <span className="user-info">Welcome, {email}</span>
+          <span className="user-info">Welcome, {username}</span>
         )}
         {isAdmin(email) && (
           <NavLink to="/admin">Admin</NavLink>

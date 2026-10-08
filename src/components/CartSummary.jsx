@@ -1,4 +1,5 @@
 import { useCart } from '../contexts/CartContext'
+import formatPrice from '../utils/formatPrice'
 
 const CartSummary = () => {
   const { cartItems, removeFromCart, updateCartItemQuantity, clearCart } = useCart()
@@ -28,7 +29,7 @@ const CartSummary = () => {
               {cartItems.map(item => (
                 <tr key={item.productId}>
                   <td>{item.name || `Product ${item.productId}`}</td>
-                  <td>${item.price || '0.00'}</td>
+                  <td>{formatPrice(item.price)}</td>
                   <td>
                     <input
                       type="number"
@@ -41,7 +42,7 @@ const CartSummary = () => {
                       }}
                     />
                   </td>
-                  <td>${((item.price || 0) * item.quantity).toFixed(2)}</td>
+                  <td>{formatPrice((item.price || 0) * item.quantity)}</td>
                   <td>
                     <button onClick={() => removeFromCart(item.productId)}>
                       Remove
@@ -52,7 +53,7 @@ const CartSummary = () => {
             </tbody>
           </table>
           <div className="cart-total">
-            <h3>Total: ${total.toFixed(2)}</h3>
+            <h3>Total: {formatPrice(total)}</h3>
           </div>
           <button onClick={clearCart} className="clear-cart">
             Clear Cart

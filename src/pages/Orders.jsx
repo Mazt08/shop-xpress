@@ -42,13 +42,18 @@ const Orders = () => {
       {orders.length === 0 ? (
         <p>No orders found</p>
       ) : (
-        <table>
+        <div className="orders-table-wrap">
+        <table className="orders-table">
           <thead>
             <tr>
               <th>Order ID</th>
+              <th>Customer</th>
               <th>Items</th>
               <th>Total</th>
               <th>Status</th>
+              <th>Shipping</th>
+              <th>Payment</th>
+              <th>Voucher</th>
               <th>Transaction ID</th>
               <th>Order Date</th>
             </tr>
@@ -56,10 +61,18 @@ const Orders = () => {
           <tbody>
             {orders.map(order => (
               <tr key={order.id}>
-                <td>{order.id}</td>
+                <td>{order.orderId || order.id}</td>
+                <td>{order.customerName || order.customerEmail || 'N/A'}</td>
                 <td>{order.items?.length || 0} items</td>
-                <td>${order.total || 0}</td>
-                <td>{order.status}</td>
+                <td>${Math.round(order.total || 0).toLocaleString('en-US')}</td>
+                <td>
+                  <span className={`order-status status-${(order.status || 'pending').toLowerCase()}`}>
+                    {order.status || 'pending'}
+                  </span>
+                </td>
+                <td>{order.shippingOption || 'N/A'}</td>
+                <td>{order.paymentMethod || 'N/A'}</td>
+                <td>{order.voucherCode || 'No voucher'}</td>
                 <td>{order.transactionId}</td>
                 <td>
                   {order.orderDate?.toDate?.().toLocaleDateString() || 'N/A'}
@@ -68,6 +81,7 @@ const Orders = () => {
             ))}
           </tbody>
         </table>
+        </div>
       )}
     </div>
   )
