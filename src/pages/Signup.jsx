@@ -71,8 +71,6 @@ const Signup = () => {
         </div>
         <button type="submit">Sign Up</button>
       </form>
-      <p>Note: Passwords stored in plaintext in Firestore - VULNERABLE</p>
-      <p>No email validation, no password complexity requirements</p>
     </div>
   )
 }

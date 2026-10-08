@@ -47,8 +47,6 @@ const Login = () => {
         </div>
         <button type="submit">Login</button>
       </form>
-      <p>Hardcoded admin: admin@test.com / admin123</p>
-      <p>Note: No rate limiting, brute-force enabled</p>
     </div>
   )
 }

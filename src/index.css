@@ -309,4 +309,243 @@ body {
 .login-page input, .signup-page input { width: 100%; padding: 0.5rem; background: #0f3460; border: 1px solid #444; color: #eaeaea; border-radius: 4px; }
 .login-page button, .signup-page button { width: 100%; padding: 0.75rem; background: #e94560; color: white; border: none; border-radius: 4px; cursor: pointer; }
 
-.error { color: #ff6b6b; background: rgba(255,0,0,0.1); padding: 1rem; border-radius: 4px; margin-bottom: 1rem; }
+.error { color: #ffb8bd; background: rgba(240,128,137,0.12); border: 1px solid rgba(240,128,137,0.45); padding: 1rem; border-radius: 4px; margin-bottom: 1rem; }
+
+:root {
+  --bg: #0b1118;
+  --surface: #121c27;
+  --surface-raised: #182635;
+  --input: #0f1923;
+  --border: #2a3b4b;
+  --text: #e7eef5;
+  --muted: #9aabba;
+  --accent: #54c7bd;
+  --accent-strong: #7be0d4;
+  --accent-ink: #08201f;
+  --success: #67d6a3;
+}
+
+body {
+  background:
+    radial-gradient(circle at 10% 0%, rgba(84, 199, 189, 0.08), transparent 28rem),
+    var(--bg);
+  color: var(--text);
+}
+
+.navbar {
+  background: rgba(18, 28, 39, 0.96);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.nav-brand a,
+.home h1,
+.cart-page h2,
+.orders-page h2,
+.auth-form h2,
+.login-page h2,
+.signup-page h2,
+.admin-login h2,
+.checkout-panel h3,
+.cart-total,
+.product-card .price,
+.product-detail .price {
+  color: var(--accent);
+}
+
+.nav-links a,
+.nav-links button,
+.back-link,
+.clear-cart {
+  border-color: var(--border);
+  color: var(--text);
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s, transform 0.2s;
+}
+
+.nav-links a:hover,
+.nav-links button:hover,
+.nav-links a.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+}
+
+.user-info {
+  background: rgba(84, 199, 189, 0.16);
+  border: 1px solid rgba(84, 199, 189, 0.45);
+  color: var(--accent-strong);
+}
+
+.search-bar input,
+.search-bar select,
+.auth-form input,
+.login-page input,
+.signup-page input,
+.admin-login input,
+.cart-table input,
+.checkout-form input,
+.checkout-form select {
+  background: var(--input);
+  border-color: var(--border);
+  color: var(--text);
+}
+
+.search-bar input:focus,
+.search-bar select:focus,
+.auth-form input:focus,
+.login-page input:focus,
+.signup-page input:focus,
+.cart-table input:focus,
+.checkout-form input:focus,
+.checkout-form select:focus {
+  outline: 2px solid rgba(84, 199, 189, 0.28);
+  border-color: var(--accent);
+}
+
+.search-bar button,
+.add-to-cart,
+.auth-form button,
+.login-page button,
+.signup-page button,
+.checkout-button {
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 700;
+  transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+
+.search-bar button:hover,
+.add-to-cart:hover,
+.auth-form button:hover,
+.login-page button:hover,
+.signup-page button:hover,
+.checkout-button:hover {
+  background: var(--accent-strong);
+  box-shadow: 0 6px 18px rgba(84, 199, 189, 0.18);
+}
+
+.product-card,
+.auth-form,
+.login-page,
+.signup-page,
+.admin-login,
+.checkout-panel,
+.cart-table-wrap,
+.orders-table-wrap,
+.empty-cart,
+.orders-login-prompt {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.2);
+}
+
+.product-card {
+  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+.product-card > a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.product-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(84, 199, 189, 0.55);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.3);
+}
+
+.product-card p:not(.price),
+.stock,
+.sku {
+  color: var(--muted);
+}
+
+.cart-table th,
+.orders-table th,
+.admin-table th,
+.cart-summary th {
+  background: var(--surface-raised);
+  color: var(--accent);
+}
+
+.cart-table th,
+.cart-table td,
+.orders-table th,
+.orders-table td,
+.admin-table th,
+.admin-table td,
+.cart-summary th,
+.cart-summary td {
+  border-color: var(--border);
+}
+
+.cart-table button:hover,
+.back-link:hover,
+.clear-cart:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+}
+
+.add-to-cart.added,
+.cart-toast {
+  background: var(--success);
+  color: #072016;
+}
+
+.login-toast {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+.login-toast a,
+.login-toast button {
+  color: var(--accent-ink);
+}
+
+.error-box {
+  background: rgba(240, 128, 137, 0.12);
+  border: 1px solid rgba(240, 128, 137, 0.45);
+  color: #ffb8bd;
+}
+
+.status-confirmed,
+.status-completed {
+  color: #b9f6d0;
+  background: rgba(103, 214, 163, 0.16);
+}
+
+.status-pending {
+  color: #ffe3a3;
+  background: rgba(231, 184, 92, 0.16);
+}
+
+.status-cancelled {
+  color: #ffc3c7;
+  background: rgba(240, 128, 137, 0.16);
+}
+
+.admin-links a {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+@media (max-width: 640px) {
+  .navbar {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .nav-links {
+    flex-wrap: wrap;
+  }
+
+  .checkout-form {
+    grid-template-columns: 1fr;
+  }
+
+  .checkout-form label:first-child {
+    grid-column: auto;
+  }
+}
