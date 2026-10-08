@@ -24,8 +24,28 @@ const AdminProducts = () => {
   }, [])
 
   const handleCreate = async () => {
-    await addDoc(collection(db, 'products'), form)
-    window.location.reload()
+    try {
+      const response = await fetch('http://127.0.0.1:5001/demo-no-project/us-central1/api/addInventory', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: form.name,
+          price: form.price,
+          stock: form.stock
+        })
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        alert('API Error (Rate Limit?): ' + data.error);
+        return;
+      }
+      
+      // Removed window.location.reload() so you can actually spam the button!
+      console.log('Added product successfully!');
+    } catch (err) {
+      alert('Failed to connect to backend.');
+    }
   }
 
   const handleDelete = async (id) => {
