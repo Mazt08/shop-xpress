@@ -2,12 +2,12 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "env": {
-    "VITE_FIREBASE_API_KEY": "@firebase_api_key",
-    "VITE_FIREBASE_AUTH_DOMAIN": "@firebase_auth_domain",
-    "VITE_FIREBASE_PROJECT_ID": "@firebase_project_id",
-    "VITE_FIREBASE_STORAGE_BUCKET": "@firebase_storage_bucket",
-    "VITE_FIREBASE_MESSAGING_SENDER_ID": "@firebase_sender_id",
-    "VITE_FIREBASE_APP_ID": "@firebase_app_id",
-    "VITE_ADMIN_PASSWORD": "@admin_password"
+    "VITE_FIREBASE_API_KEY": "AIzaSyCIQaujk43exsbUnvwXD9hvMpoHZPE5U8A",
+    "VITE_FIREBASE_AUTH_DOMAIN": "shopxpress-76296.firebaseapp.com",
+    "VITE_FIREBASE_PROJECT_ID": "shopxpress-76296",
+    "VITE_FIREBASE_STORAGE_BUCKET": "shopxpress-76296.firebasestorage.app",
+    "VITE_FIREBASE_MESSAGING_SENDER_ID": "338549365581",
+    "VITE_FIREBASE_APP_ID": "1:338549365581:web:8364b963867d3282f73504",
+    "VITE_ADMIN_PASSWORD": "admin123"
   }
 }
