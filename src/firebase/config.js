@@ -3,7 +3,7 @@ import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
-const firebaseConfig = {
+const firebaseConfig = globalThis.__FIREBASE_CONFIG__ || {
   apiKey: "AIzaSyCIQaujk43exsbUnvwXD9hvMpoHZPE5U8A",
   authDomain: "shopxpress-76296.firebaseapp.com",
   projectId: "shopxpress-76296",
