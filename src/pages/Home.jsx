@@ -15,7 +15,7 @@ const Home = () => {
 
   return (
     <div className="home">
-      <h1>ShopXpress - Vulnerable E-commerce Site</h1>
+      <h1>ShopXpress - Your Everyday Online Store</h1>
       <SearchBar />
       {products.length === 0 ? (
         <div>No products found</div>
