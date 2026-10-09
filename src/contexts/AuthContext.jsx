@@ -72,16 +72,6 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      // 1. Check our custom rate limiter FIRST
-      const response = await fetch('http://127.0.0.1:5001/demo-no-project/us-central1/api/login-check', { method: 'POST' });
-      
-      if (!response.ok) {
-        const data = await response.json();
-        alert('SECURITY ALERT: ' + data.error);
-        return; // Block the login attempt immediately!
-      }
-
-      // 2. If the rate limiter allows it, proceed with the actual Firebase login
       const userCred = await signInWithEmailAndPassword(auth, email, password)
       const userRef = doc(db, 'users', userCred.user.email)
       const userSnap = await getDoc(userRef)
