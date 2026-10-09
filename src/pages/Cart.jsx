@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useCart } from '../contexts/CartContext'
 import { useProduct } from '../contexts/ProductContext'
 import { useAuth } from '../contexts/AuthContext'
+import { useWallet } from '../contexts/WalletContext'
 import { db } from '../firebase/config'
 import formatPrice from '../utils/formatPrice'
 import {
@@ -18,6 +19,7 @@ const Cart = () => {
   const { cartItems, clearCart, removeFromCart, updateCartItemQuantity } = useCart()
   const { products } = useProduct()
   const { currentUser, username } = useAuth()
+  const { balance, spendBalance } = useWallet()
   const [checkoutDetails, setCheckoutDetails] = useState({
     shippingOption: 'Standard shipping',
     paymentMethod: 'Cash on delivery',
@@ -34,6 +36,10 @@ const Cart = () => {
     }
     setIsCheckingOut(true)
     try {
+      if (balance < total) {
+        throw new Error('Insufficient wallet balance. Please deposit more funds before checking out.')
+      }
+
       for (const item of cartItems) {
         const productDoc = await getDoc(doc(db, 'products', item.productId))
         if (!productDoc.exists()) {
@@ -47,6 +53,8 @@ const Cart = () => {
           stock: productData.stock - item.quantity
         })
       }
+
+      await spendBalance(total)
 
       const orderRef = doc(collection(db, 'orders'))
       const orderId = `ORD-${orderRef.id.slice(0, 8).toUpperCase()}`
@@ -151,6 +159,7 @@ const Cart = () => {
             <p>Shipping: {formatPrice(shippingCost)}</p>
             <p>Discount: -{formatPrice(discount)}</p>
             <h3>Total: {formatPrice(total)}</h3>
+            <p>Wallet balance: {formatPrice(balance)}</p>
           </div>
           <div className="checkout-panel">
             <h3>Checkout Options</h3>

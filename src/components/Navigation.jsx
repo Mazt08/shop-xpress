@@ -12,6 +12,7 @@ const Navigation = () => {
       <div className="nav-links">
         <NavLink to="/">Catalog</NavLink>
         <NavLink to="/cart">Cart</NavLink>
+        <NavLink to="/wallet">Wallet</NavLink>
         <NavLink to="/orders">Orders</NavLink>
         {email && (
           <span className="user-info">Welcome, {username}</span>

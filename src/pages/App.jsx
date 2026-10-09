@@ -10,6 +10,7 @@ import Admin from './Admin'
 import AdminProducts from './AdminProducts'
 import AdminUsers from './AdminUsers'
 import AdminOrders from './AdminOrders'
+import Wallet from './Wallet'
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
         <Route path="/product/:id" element={<ProductDetail />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/orders" element={<Orders />} />
+        <Route path="/wallet" element={<Wallet />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/admin/products" element={<AdminProducts />} />
         <Route path="/admin/users" element={<AdminUsers />} />
